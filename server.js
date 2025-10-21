@@ -10,8 +10,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 app.get('/', (req, res) => {
   res.send({"Message": "Welcome to the PixelTMDB API Server!",
     "Available Endpoints": {
@@ -22,7 +20,7 @@ app.get('/', (req, res) => {
 
 app.get("/tmdb/trending", async (req, res)=>{
     try{
-        const page = req.body.page || 1;
+        const page = req.query.page || 1;
         const tmdbres = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.TMDB_API_KEY}&page=${page}`);
         const tmdbdata = await tmdbres.json();
         res.status(200).json({status: "success", tmdbdata: tmdbdata});
@@ -31,7 +29,6 @@ app.get("/tmdb/trending", async (req, res)=>{
         res.status(500).json({status:"error", message: "Internal Server Error"});
     }
 });
-
 
 app.listen(PORT, ()=>{
     console.log(`PixelTMDB Server is running on port ${PORT}`);
