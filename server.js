@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
   res.send({"Message": "Welcome to the PixelTMDB API Server!",
     "Available Endpoints": {
         "/tmdb/trending": "GET - Fetch trending movies/TV shows from TMDB",
+        "/tmdb/:type/:id": "GET - Fetch details of a movie or TV show by type and ID"
     }
   });
 });
@@ -26,6 +27,20 @@ app.get("/tmdb/trending", async (req, res)=>{
         res.status(200).json({status: "success", tmdbdata: tmdbdata});
     } catch(error){
         console.log("Error in /tmdb/trending route:", error);
+        res.status(500).json({status:"error", message: "Internal Server Error"});
+    }
+});
+
+
+// get movie / shows details:
+app.get("/tmdb/:type/:id", async (req, res) =>{
+    try{
+        const { type, id } = req.params;
+        const tmdbres = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.TMDB_API_KEY}`);
+        const tmdbdata = await tmdbres.json();
+        res.status(200).json({status: "success", tmdbdata: tmdbdata});
+    } catch(error){
+        console.log("Error in /tmdb/:type/:id route:", error);
         res.status(500).json({status:"error", message: "Internal Server Error"});
     }
 });
