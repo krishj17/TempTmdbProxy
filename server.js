@@ -36,7 +36,7 @@ app.get("/tmdb/trending", async (req, res)=>{
 app.get("/tmdb/:type/:id", async (req, res) =>{
     try{
         const { type, id } = req.params;
-        const tmdbres = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.TMDB_API_KEY}`);
+        const tmdbres = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=credits`);
         const tmdbdata = await tmdbres.json();
         res.status(200).json({status: "success", tmdbdata: tmdbdata});
     } catch(error){
