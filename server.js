@@ -45,6 +45,20 @@ app.get("/tmdb/:type/:id", async (req, res) =>{
     }
 });
 
+
+// tmdb helper route to get all ids
+app.get("/tmdb/:type/:id/external_ids", async (req, res) =>{
+    try{
+        const { type, id } = req.params;
+        const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}/external_ids?api_key=${process.env.TMDB_API_KEY}`);
+        const allIds = await response.json();
+        res.status(200).json({status: "success", allIds: allIds});
+    } catch(error){
+        console.log("Error in /tmdb/:type/:id/external_ids route:", error);
+        res.status(500).json({status:"error", message: "Internal Server Error"});
+    }
+});
+
 app.listen(PORT, ()=>{
     console.log(`PixelTMDB Server is running on port ${PORT}`);
 });
