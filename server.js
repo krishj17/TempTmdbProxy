@@ -14,7 +14,9 @@ app.get('/', (req, res) => {
   res.send({"Message": "Welcome to the PixelTMDB API Server!",
     "Available Endpoints": {
         "/tmdb/trending": "GET - Fetch trending movies/TV shows from TMDB",
-        "/tmdb/:type/:id": "GET - Fetch details of a movie or TV show by type and ID"
+        "/tmdb/:type/:id": "GET - Fetch details of a movie or TV show by type and ID",
+        "/tmdb/:type/:id/external_ids": "GET - Fetch external IDs (e.g., IMDb) for a movie or TV show",
+        "/tmdb/find/:id": "GET - Find a movie or TV show by external ID"
     }
   });
 });
