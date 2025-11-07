@@ -59,6 +59,19 @@ app.get("/tmdb/:type/:id/external_ids", async (req, res) =>{
     }
 });
 
+// tmdb show find by external id
+app.get("/tmdb/find/:id", async (req, res) =>{
+    try{
+        const { id } = req.params;
+        const response = await fetch(`https://api.themoviedb.org/3/find/${id}?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`);
+        const data = await response.json();
+        res.status(200).json({status: "success", data: data});
+    } catch(error){
+        console.log("Error in /tmdb/find/:id route:", error);
+        res.status(500).json({status:"error", message: "Internal Server Error"});
+    }
+});
+
 app.listen(PORT, ()=>{
     console.log(`PixelTMDB Server is running on port ${PORT}`);
 });
