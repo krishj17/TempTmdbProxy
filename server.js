@@ -40,8 +40,7 @@ app.get("/tmdb/find/:id", async (req, res) =>{
         const { id } = req.params;
         const response = await fetch(`https://api.themoviedb.org/3/find/${id}?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`);
         const data = await response.json();
-        console.log(`id: ${id} | response: ${JSON.stringify(response)} | data: ${JSON.stringify(data)}`);
-        res.status(200).json({status: "success 1234"});
+        res.status(200).json({status: "success", data: data});
     } catch(error){
         console.log("Error in /tmdb/find/:id route:", error);
         res.status(500).json({status:"error", message: "Internal Server Error"});
